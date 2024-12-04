@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простой POST-запрос</title>
+</head>
+<body>
+    <h1>Добавить альбом</h1>
+    <form id="albumForm">
+        <input type="text" id="albumTitle" placeholder="Название альбома" required>
+        <button type="submit">Добавить альбом</button>
+    </form>
+
+    <script>
+        // Обработчик отправки формы
+        const albumForm = document.getElementById('albumForm');
+        albumForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+            const albumTitle = document.getElementById('albumTitle').value; // Получаем название альбома
+
+            const albumData = {
+                title: albumTitle,
+            };
+
+            try {
+                // Отправляем POST-запрос на сервер
+                const response = await fetch('http://localhost:3000/api/albums', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // Указываем, что отправляем JSON
+                    },
+                    body: JSON.stringify(albumData), // Отправляем данные как строку JSON
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Ответ от сервера:', result);
+                    alert(result.message); // Показываем сообщение от сервера
+                } else {
+                    alert('Ошибка при добавлении альбома');
+                }
+            } catch (error) {
+                console.error('Ошибка при отправке запроса:', error);
+                alert('Ошибка при отправке запроса');
+            }
+        });
+    </script>
+</body>
+</html>

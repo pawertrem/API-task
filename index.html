@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="sidebar-top">
+                <ul>
+                    <li class="icon-container"><img src="icons/home-icon.png" alt="Home"></li>
+                    <li class="icon-container"><img src="icons/search-icon.png" alt="Search"></li>
+                </ul>
+            </nav>
+            <nav class="sidebar-bottom">
+                <ul>
+                    <li class="icon-container"><img src="icons/library-icon.png" alt="Library"></li>
+                    <li class="icon-container"><img src="icons/favorites-icon.png" alt="Favorites"></li>
+                    <li class="icon-container"><img src="icons/image1.png" alt="Album 1"></li>
+                    <li class="icon-container"><img src="icons/image2.png" alt="Album 2"></li>
+                    <li class="icon-container"><img src="icons/image3.png" alt="Album 3"></li>
+                    <li class="icon-container"><img src="icons/image4.png" alt="Album 4"></li>
+                    <li class="icon-container"><img src="icons/image5.png" alt="Album 5"></li>
+                    <li class="icon-container"><img src="icons/image6.png" alt="Album 6"></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer-spacer"></div> <!-- Spacer to control footer space -->
+        </aside>
+        
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-wrapper">
+                <div class="top-icons">
+                    <div class="arrow-icons">
+                        <img src="icons/left-arrow.png" alt="Left Arrow" class="icon">
+                        <img src="icons/right-arrow.png" alt="Right Arrow" class="icon">
+                    </div>
+                    <div class="profile-icons">
+                        <img src="icons/notification.png" alt="Notification" class="icon">
+                        <img src="icons/user-profile.png" alt="User Profile" class="icon">
+                    </div>
+                </div>
+                <section class="albums-section">
+                    <h2>Альбомы, которые могут тебе понравиться</h2>
+                    <div class="albums" id="albums-container">
+                        <!-- Здесь будут отображаться альбомы -->
+                    </div>
+                </section>
+    
+                <section class="artists-section">
+                    <h2>Артисты, которые могут тебе понравиться</h2>
+                    <div class="artists">
+                        <!-- Пример блока с артистом -->
+                        <div class="artist">
+                            <img src="images/artist1.jpg" alt="Artist 1" class="artist-cover">
+                        </div>
+                        <div class="artist">
+                            <img src="images/artist2.jpg" alt="Artist 2" class="artist-cover">
+                        </div>
+                        <div class="artist">
+                            <img src="images/artist3.jpg" alt="Artist 3" class="artist-cover">
+                        </div>
+                        <div class="artist">
+                            <img src="images/artist4.jpg" alt="Artist 4" class="artist-cover">
+                        </div>
+                        <div class="artist">
+                            <img src="images/artist5.jpg" alt="Artist 5" class="artist-cover">
+                        </div>
+                        <div class="artist">
+                            <img src="images/artist6.jpg" alt="Artist 6" class="artist-cover">
+                        </div>
+                        <!-- Добавить остальные изображения артистов -->
+                    </div>
+                </section>
+            </div>
+            <div class="footer-spacer"></div>
+        </main>
+
+        <!-- Music Player -->
+        <footer class="music-player">
+            <div class="track-info">
+                <img src="icons/playing.png" alt="Current Track" class="track-cover">
+                <div class="track-details">
+                    <p class="track-name">the 1</p>
+                    <p class="artist-name">Taylor Swift</p>
+                </div>
+            </div>
+            <div class="control-section">
+                <div class="controls">
+                    <button class="control-button"><img src="icons/back.png" alt="Library"></button>
+                    <button class="play-pause-button"><img src="icons/stop.png" alt="Library"></button>
+                    <button class="control-button"><img src="icons/next.png" alt="Library"></button>
+                </div>
+                <div class="progress-bar">
+                    <span class="current-time">0:16</span>
+                    <input type="range" class="progress-slider" min="0" max="210" value="16">
+                    <span class="total-time">3:30</span>
+                </div>
+            </div>
+            <div class="additional-controls">
+                <button class="icon-button"><img src="icons/text.png" alt="Library"></button>
+                <button class="icon-button"><img src="icons/queue.png" alt="Library"></button>
+                <button class="icon-button"><img src="icons/sound.png" alt="Library"></button>
+                <input type="range" class="volume-slider" min="0" max="100" value="50">
+                <button class="icon-button"><img src="icons/full.png" alt="Library"></button>
+            </div>
+        </footer>        
+    </div>
+    <script>
+        console.log('Запрос к серверу начался...');
+        fetch('http://localhost:3000/api/albums')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Данные получены:', data);
+                const albumsContainer = document.getElementById('albums-container');
+                data.albums.forEach(album => {
+                    const albumElement = document.createElement('div');
+                    albumElement.classList.add('album');
+    
+                    const albumImage = document.createElement('img');
+                    albumImage.src = album.coverImage;
+                    albumImage.alt = album.title;
+                    albumImage.classList.add('album-cover');
+                    albumElement.appendChild(albumImage);
+    
+                    const albumTitle = document.createElement('span');
+                    albumTitle.classList.add('album-title');
+                    albumTitle.textContent = album.title;
+                    albumElement.appendChild(albumTitle);
+    
+                    albumsContainer.appendChild(albumElement);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке данных:', error);
+            });
+    </script>
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
